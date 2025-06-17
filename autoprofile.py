@@ -20,25 +20,27 @@ else:
 @loader.tds
 class AutoProfileMod(loader.Module):
     """Automatic stuff for your profile :P"""
-    strings = {"name": "Automatic Profile",
-               "missing_pil": "<b>You don't have Pillow installed</b>",
-               "missing_pfp": "<b>You don't have a profile picture to rotate</b>",
-               "invalid_args": "<b>Missing parameters, please read the docs</b>",
-               "invalid_degrees": "<b>Invalid number of degrees to rotate, please read the docs</b>",
-               "invalid_delete": "<b>Please specify whether to delete the old pictures or not</b>",
-               "enabled_pfp": "<b>Enabled profile picture rotation</b>",
-               "pfp_not_enabled": "<b>Profile picture rotation is not enabled</b>",
-               "pfp_disabled": "<b>Profile picture rotation disabled</b>",
-               "missing_time": "<b>Time was not specified in bio</b>",
-               "enabled_bio": "<b>Enabled bio clock</b>",
-               "bio_not_enabled": "<b>Bio clock is not enabled</b>",
-               "disabled_bio": "<b>Disabled bio clock</b>",
-               "enabled_name": "<b>Enabled name clock</b>",
-               "name_not_enabled": "<b>Name clock is not enabled</b>",
-               "disabled_name": "<b>Name clock disabled</b>",
-               "how_many_pfps": "<b>Please specify how many profile pictures should be removed</b>",
-               "invalid_pfp_count": "<b>Invalid number of profile pictures to remove</b>",
-               "removed_pfps": "<b>Removed {} profile pic(s)</b>"}
+    strings = {
+        "name": "Automatic Profile",
+        "missing_pil": "<b>You don't have Pillow installed</b>",
+        "missing_pfp": "<b>You don't have a profile picture to rotate</b>",
+        "invalid_args": "<b>Missing parameters, please read the docs</b>",
+        "invalid_degrees": "<b>Invalid number of degrees to rotate, please read the docs</b>",
+        "invalid_delete": "<b>Please specify whether to delete the old pictures or not</b>",
+        "enabled_pfp": "<b>Enabled profile picture rotation</b>",
+        "pfp_not_enabled": "<b>Profile picture rotation is not enabled</b>",
+        "pfp_disabled": "<b>Profile picture rotation disabled</b>",
+        "missing_time": "<b>Time was not specified in bio</b>",
+        "enabled_bio": "<b>Enabled bio clock</b>",
+        "bio_not_enabled": "<b>Bio clock is not enabled</b>",
+        "disabled_bio": "<b>Disabled bio clock</b>",
+        "enabled_name": "<b>Enabled name clock</b>",
+        "name_not_enabled": "<b>Name clock is not enabled</b>",
+        "disabled_name": "<b>Name clock disabled</b>",
+        "how_many_pfps": "<b>Please specify how many profile pictures should be removed</b>",
+        "invalid_pfp_count": "<b>Invalid number of profile pictures to remove</b>",
+        "removed_pfps": "<b>Removed {} profile pic(s)</b>"
+    }
 
     def __init__(self):
         self.bio_enabled = False
@@ -94,10 +96,13 @@ class AutoProfileMod(loader.Module):
                     buf.seek(0)
 
                     if delete_previous:
-                        await self.client(functions.photos.
-                                          DeletePhotosRequest(await self.client.get_profile_photos("me", limit=1)))
+                        await self.client(functions.photos.DeletePhotosRequest(
+                            await self.client.get_profile_photos("me", limit=1)
+                        ))
 
-                    await self.client(functions.photos.UploadProfilePhotoRequest(await self.client.upload_file(buf)))
+                    await self.client(functions.photos.UploadProfilePhotoRequest(
+                        file=await self.client.upload_file(buf)
+                    ))
                     buf.close()
                 await asyncio.sleep(60)
 
@@ -175,7 +180,7 @@ class AutoProfileMod(loader.Module):
             await asyncio.sleep(60)
 
     async def stopautonamecmd(self, message):
-        """ Stop autoname cmd."""
+        """Stop autoname cmd."""
 
         if self.name_enabled is False:
             return await utils.answer(message, self.strings("name_not_enabled", message))
@@ -188,7 +193,7 @@ class AutoProfileMod(loader.Module):
             ))
 
     async def delpfpcmd(self, message):
-        """ Remove x profile pic(s) from your profile.
+        """Remove x profile pic(s) from your profile.
         .delpfp <pfps count/unlimited - remove all>"""
 
         args = utils.get_args(message)
