@@ -53,7 +53,7 @@ class AutoProfileMod(loader.Module):
         self.client = client
 
     async def autopfpcmd(self, message):
-        """Rotates your profile picture every 30 seconds with x degrees, usage:
+        """Rotates your profile picture every 60 seconds with x degrees, usage:
            .autopfp <degrees> <remove previous (last pfp)>
 
            Degrees - 60, -10, etc
@@ -104,7 +104,7 @@ class AutoProfileMod(loader.Module):
                         file=await self.client.upload_file(buf)
                     ))
                     buf.close()
-                await asyncio.sleep(30)
+                await asyncio.sleep(60)
 
     async def stopautopfpcmd(self, message):
         """Stop autobio cmd."""
