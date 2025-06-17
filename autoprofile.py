@@ -104,7 +104,7 @@ class AutoProfileMod(loader.Module):
                         file=await self.client.upload_file(buf)
                     ))
                     buf.close()
-                await asyncio.sleep(60)
+                await asyncio.sleep(15)
 
     async def stopautopfpcmd(self, message):
         """Stop autobio cmd."""
